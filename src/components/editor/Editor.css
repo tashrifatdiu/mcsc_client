@@ -1,0 +1,349 @@
+:root{
+  --bg-very-dark: #13071a; /* page background */
+  --panel: rgba(255,255,255,0.04);
+  --card: rgba(255,255,255,0.06);
+  --card-hover: rgba(255,255,255,0.09);
+  --primary: #9B6DFF; /* purple accent */
+  --accent2: rgba(155,109,255,0.18);
+  --text: #f7f7fb;
+  --text-dim: #cfc7dd;
+  --border-bright: rgba(255,255,255,0.06);
+  --radius: 12px;
+  --shadow: 0 8px 30px rgba(9,6,22,0.6);
+  --editor-font: 'Quicksand', system-ui, sans-serif;
+}
+
+/* Editor container - matches component markup */
+.editor-container,
+.journal-editor {
+  max-width: 1100px;
+  margin: 18px auto;
+  padding: 18px;
+  background: transparent; /* keep page background visible */
+  color: var(--text);
+}
+
+.editor-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+  margin-bottom:12px;
+}
+
+.editor-title{ flex:1 }
+
+.title-input{
+  width:100%;
+  padding:14px 18px;
+  border-radius:14px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  border: 1px solid rgba(255,255,255,0.06);
+  color:var(--text);
+  font-size:1.15rem;
+  font-weight:600;
+}
+.title-input::placeholder{ color: rgba(255,255,255,0.35) }
+.title-input:focus{ outline: none; box-shadow: 0 6px 20px var(--accent2); border-color: var(--primary) }
+
+.editor-metadata{ font-size:0.9rem; color:var(--text-dim) }
+
+/* Make primary toolbar visually distinct - floating light panel */
+.editor-toolbar{
+  display:flex;
+  gap:12px;
+  padding:12px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  border-radius: 14px;
+  border: 1px solid rgba(255,255,255,0.06);
+  align-items:center;
+  flex-wrap:wrap;
+}
+
+.editor-toolbar-label{ color: var(--text-dim); font-size:0.75rem; letter-spacing:0.6px }
+
+.editor-toolbar-buttons{ gap:8px }
+
+/* toolbar buttons: neutral, static (no hover/animation) */
+.editor-tool-btn{
+  background: #f3f4f6; /* neutral light */
+  color: #111827;
+  border: 1px solid #e5e7eb;
+  box-shadow: none;
+  transition: none;
+}
+.editor-tool-btn:hover{ /* no hover effect to avoid distraction */
+  background: #f3f4f6;
+  transform: none;
+  box-shadow: none;
+  color: #111827;
+  border-color: #e5e7eb;
+}
+.editor-tool-btn.active{ background: #e5e7eb; color: #111827; border-color: #d1d5db; box-shadow: none; }
+
+/* Floating toolbar tweaks */
+.floating-toolbar{ background: #ffffff; border: 1px solid #e5e7eb; box-shadow: none; }
+
+/* Buttons used in footer */
+.btn{ padding:10px 14px; border-radius:12px; font-weight:600; border:1px solid transparent }
+.btn-primary{ background: #111827; color:#ffffff }
+.btn-primary:hover{ filter:none }
+.btn-secondary{ background: transparent; color:var(--text-dim); border:1px solid rgba(255,255,255,0.04) }
+
+
+/* Main toolbar */
+.editor-toolbar {
+  display: flex;
+  gap: 20px;
+  padding: 15px;
+  background: var(--card);
+  border-radius: var(--radius);
+  border: 1px solid var(--border-bright);
+  flex-wrap: wrap;
+}
+
+.editor-toolbar-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.editor-toolbar-label {
+  font-size: 12px;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.editor-toolbar-buttons {
+  display: flex;
+  gap: 4px;
+}
+
+.editor-tool-btn {
+  padding: 8px;
+  min-width: 36px;
+  height: 36px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Space Mono', monospace;
+}
+
+/* Floating toolbar */
+.floating-toolbar {
+  padding: 6px;
+  background: var(--card);
+  border: 1px solid var(--border-bright);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  display: flex;
+  gap: 4px;
+  z-index: 1000;
+  animation: floatIn 0.2s ease;
+}
+
+@keyframes floatIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.floating-toolbar button {
+  padding: 6px;
+  min-width: 32px;
+  height: 32px;
+  border-radius: 4px;
+  border: 1px solid var(--border-bright);
+  background: var(--bg-dark);
+  color: var(--text);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.floating-toolbar button:hover {
+  /* no-op hover to avoid distractions */
+  background: var(--card);
+  border-color: var(--border-bright);
+  color: var(--text);
+}
+
+/* Editor content area */
+.editor-content {
+  background: #ffffff; /* white writing field for readability */
+  border-radius: 10px;
+  border: 1px solid rgba(16,24,40,0.08);
+  min-height: 500px;
+  padding: 36px 48px; /* roomy, novel-like margins */
+  max-width: 760px; /* comfortable line length for prose */
+  margin: 0 auto; /* center the writing column */
+  color: #111827; /* dark text for writing */
+  font-family: Georgia, 'Times New Roman', serif; /* novel / book serif */
+  line-height: 1.6;
+  transition: all 0.2s ease;
+}
+
+.editor-content:focus {
+  outline: none;
+  border-color: rgba(59,130,246,0.18);
+  box-shadow: 0 10px 30px rgba(59,130,246,0.08);
+}
+
+/* Typography styles */
+.editor-content h1 {
+  font-size: 2.5em;
+  margin: 1em 0 0.5em;
+}
+
+.editor-content h2 {
+  font-size: 2em;
+  margin: 1em 0 0.5em;
+}
+
+.editor-content h3 {
+  font-size: 1.5em;
+  margin: 1em 0 0.5em;
+}
+
+.editor-content p {
+  margin: 1em 0;
+}
+
+.editor-content blockquote {
+  border-left: 3px solid var(--primary);
+  margin: 1em 0;
+  padding: 0.5em 0 0.5em 1em;
+  background: #f7f7f9;
+  border-radius: 0 6px 6px 0;
+}
+
+.editor-content pre {
+  background: #f3f4f6;
+  padding: 1em;
+  border-radius: 8px;
+  overflow-x: auto;
+  font-family: 'Space Mono', monospace;
+}
+
+.editor-content code {
+  font-family: 'Space Mono', monospace;
+  background: #f3f4f6;
+  padding: 0.2em 0.4em;
+  border-radius: 4px;
+}
+
+/* Lists */
+.editor-content ul, .editor-content ol {
+  margin: 1em 0;
+  padding-left: 2em;
+}
+
+.editor-content li {
+  margin: 0.5em 0;
+}
+
+.editor-content .checklist {
+  list-style: none;
+  padding-left: 0;
+}
+
+.editor-content .checklist li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.editor-content .checklist input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+}
+
+/* Media */
+.editor-content img {
+  max-width: 100%;
+  height: auto;
+  border-radius: var(--radius);
+  margin: 1em 0;
+}
+
+.editor-content figure {
+  margin: 1em 0;
+}
+
+.editor-content figcaption {
+  text-align: center;
+  color: var(--text-dim);
+  font-size: 0.9em;
+  margin-top: 0.5em;
+}
+
+/* Tables */
+.editor-content table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1em 0;
+}
+
+.editor-content th, .editor-content td {
+  border: 1px solid var(--border-bright);
+  padding: 0.5em;
+  text-align: left;
+}
+
+.editor-content th {
+  background: #f3f4f6;
+  font-weight: bold;
+}
+
+/* LaTeX and Math */
+.editor-content .latex {
+  display: inline-block;
+  padding: 0.2em 0.4em;
+  background: #f3f4f6;
+  color: #111827;
+  border-radius: 4px;
+  font-family: 'CMU Serif', serif;
+}
+
+.editor-content .equation {
+  display: block;
+  margin: 1em 0;
+  padding: 1em;
+  background: #f3f4f6;
+  border-radius: 8px;
+  text-align: center;
+  font-family: 'CMU Serif', serif;
+}
+
+/* Citations and Footnotes */
+.editor-content .citation {
+  color: var(--primary);
+  cursor: pointer;
+  font-size: 0.9em;
+  vertical-align: super;
+}
+
+.editor-content .footnote {
+  font-size: 0.9em;
+  color: var(--text-dim);
+  border-top: 1px solid var(--border-bright);
+  margin-top: 2em;
+  padding-top: 1em;
+}
+
+/* Diagrams */
+.editor-content .diagram {
+  background: #f3f4f6;
+  border-radius: 8px;
+  padding: 1em;
+  margin: 1em 0;
+}
